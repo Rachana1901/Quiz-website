@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Quiz Website</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #e8eaff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .quiz {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #6558d3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz">
+    <h1>Online Quiz</h1>
+    <h3 id="question">Welcome! Start your quiz.</h3>
+
+    <div id="answers"></div>
+
+    <button onclick="startQuiz()" id="start">
+        Start Quiz
+    </button>
+
+    <h3 id="result"></h3>
+</div>
+
+<script>
+const questions = [
+    {
+        q: "Which language is used for web design?",
+        a: ["Python", "HTML", "C", "Java"],
+        correct: "HTML"
+    },
+    {
+        q: "Which is a programming language?",
+        a: ["CSS", "HTML", "Python", "Photoshop"],
+        correct: "Python"
+    },
+    {
+        q: "What does CSS stand for?",
+        a: ["Cascading Style Sheets", "Computer Style System", "Color Style Sheet", "None"],
+        correct: "Cascading Style Sheets"
+    }
+];
+
+let current = 0;
+let score = 0;
+
+function startQuiz() {
+    current = 0;
+    score = 0;
+    document.getElementById("start").style.display = "none";
+    showQuestion();
+}
+
+function showQuestion() {
+    if (current >= questions.length) {
+        document.getElementById("question").innerHTML =
+            "Quiz Completed!";
+        document.getElementById("answers").innerHTML = "";
+        document.getElementById("result").innerHTML =
+            "Your Score: " + score + "/" + questions.length;
+        document.getElementById("start").innerHTML = "Restart Quiz";
+        document.getElementById("start").style.display = "block";
+        return;
+    }
+
+    let q = questions[current];
+
+    document.getElementById("question").innerHTML = q.q;
+    document.getElementById("result").innerHTML = "";
+
+    let html = "";
+
+    q.a.forEach(answer => {
+        html += `<button onclick="checkAnswer('${answer}')">${answer}</button>`;
+    });
+
+    document.getElementById("answers").innerHTML = html;
+}
+
+function checkAnswer(answer) {
+    if (answer === questions[current].correct) {
+        score++;
+    }
+
+    current++;
+    showQuestion();
+}
+</script>
+
+</body>
+</html>
